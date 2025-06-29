@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Table, Button, Space, Tag, Popconfirm, Typography, Empty, message, Alert } from 'antd';
+import { Table, Button, Space, Tag, Popconfirm, Typography, Empty, message, Alert, TableColumnsType } from 'antd';
 import { EditOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { Transaction, PageResponse, BatchDeleteResponse } from '../types/Transaction';
 import transactionService from '../services/transactionService';
@@ -35,7 +35,7 @@ const TransactionList: React.FC<TransactionListProps> = ({
       const response: BatchDeleteResponse = await transactionService.deleteMultipleTransactions(
         selectedRowKeys.map(key => Number(key))
       );
-      
+
       message.success(response.message);
       setSelectedRowKeys([]);
       // Refresh data
@@ -55,18 +55,18 @@ const TransactionList: React.FC<TransactionListProps> = ({
     },
   };
 
-  const columns = [
-    { 
-      title: 'ID', 
-      dataIndex: 'id', 
-      key: 'id', 
+  const columns: TableColumnsType<Transaction> = [
+    {
+      title: 'ID',
+      dataIndex: 'id',
+      key: 'id',
       width: 80,
       render: (id: number) => <Text code>{id}</Text>
     },
-    { 
-      title: 'Amount', 
-      dataIndex: 'amount', 
-      key: 'amount', 
+    {
+      title: 'Amount',
+      dataIndex: 'amount',
+      key: 'amount',
       width: 120,
       render: (amount: string, record: Transaction) => (
         <Text strong type={record.type === 'INCOME' ? 'success' : 'danger'}>
@@ -74,56 +74,57 @@ const TransactionList: React.FC<TransactionListProps> = ({
         </Text>
       )
     },
-    { 
-      title: 'Type', 
-      dataIndex: 'type', 
-      key: 'type', 
+    {
+      title: 'Type',
+      dataIndex: 'type',
+      key: 'type',
       width: 100,
+      filters: [...new Set(pageData.content.map(ele => ele.type))].map(type => ({ text: type, value: type })),
       render: (type: string) => (
-        type === 'INCOME' ? 
-          <Tag color="green" style={{ margin: 0 }}>INCOME</Tag> : 
+        type === 'INCOME' ?
+          <Tag color="green" style={{ margin: 0 }}>INCOME</Tag> :
           <Tag color="red" style={{ margin: 0 }}>EXPENSE</Tag>
       )
     },
-    { 
-      title: 'Create User', 
-      dataIndex: 'createUser', 
+    {
+      title: 'Create User',
+      dataIndex: 'createUser',
       key: 'createUser',
       width: 120,
       render: (user: string) => <Text>{user || 'N/A'}</Text>
     },
-    { 
-      title: 'Update User', 
-      dataIndex: 'updateUser', 
+    {
+      title: 'Update User',
+      dataIndex: 'updateUser',
       key: 'updateUser',
       width: 120,
       render: (user: string) => <Text>{user || 'N/A'}</Text>
     },
-    { 
-      title: 'Created Time', 
-      dataIndex: 'createTime', 
-      key: 'createTime', 
+    {
+      title: 'Created Time',
+      dataIndex: 'createTime',
+      key: 'createTime',
       width: 150,
       render: (value: string) => (
-        value ? 
-          <Text>{value}</Text> : 
+        value ?
+          <Text>{value}</Text> :
           <Text type="secondary">N/A</Text>
       )
     },
-    { 
-      title: 'Updated Time', 
-      dataIndex: 'updateTime', 
-      key: 'updateTime', 
+    {
+      title: 'Updated Time',
+      dataIndex: 'updateTime',
+      key: 'updateTime',
       width: 150,
       render: (value: string) => (
-        value ? 
-          <Text>{value}</Text> : 
+        value ?
+          <Text>{value}</Text> :
           <Text type="secondary">N/A</Text>
       )
     },
-    { 
-      title: 'Description', 
-      dataIndex: 'description', 
+    {
+      title: 'Description',
+      dataIndex: 'description',
       key: 'description',
       ellipsis: true,
       render: (description: string) => (
@@ -132,17 +133,17 @@ const TransactionList: React.FC<TransactionListProps> = ({
         </Text>
       )
     },
-    { 
-      title: 'Actions', 
-      key: 'actions', 
+    {
+      title: 'Actions',
+      key: 'actions',
       width: 150,
       fixed: 'right' as const,
       render: (_: any, record: Transaction) => (
         <Space size="small">
-          <Button 
-            type="text" 
-            icon={<EditOutlined />} 
-            onClick={() => record && onEdit(record)} 
+          <Button
+            type="text"
+            icon={<EditOutlined />}
+            onClick={() => record && onEdit(record)}
             size="small"
             style={{ color: '#1890ff' }}
           >
@@ -157,10 +158,10 @@ const TransactionList: React.FC<TransactionListProps> = ({
             placement="topRight"
             icon={<ExclamationCircleOutlined style={{ color: 'red' }} />}
           >
-            <Button 
-              type="text" 
-              danger 
-              icon={<DeleteOutlined />} 
+            <Button
+              type="text"
+              danger
+              icon={<DeleteOutlined />}
               size="small"
             >
               Delete
@@ -186,9 +187,9 @@ const TransactionList: React.FC<TransactionListProps> = ({
                 cancelText="Cancel"
                 icon={<ExclamationCircleOutlined style={{ color: 'red' }} />}
               >
-                <Button 
-                  type="primary" 
-                  danger 
+                <Button
+                  type="primary"
+                  danger
                   loading={batchDeleting}
                   icon={<DeleteOutlined />}
                   size="small"
@@ -196,8 +197,8 @@ const TransactionList: React.FC<TransactionListProps> = ({
                   Delete Selected ({selectedRowKeys.length})
                 </Button>
               </Popconfirm>
-              <Button 
-                size="small" 
+              <Button
+                size="small"
                 onClick={() => setSelectedRowKeys([])}
               >
                 Clear Selection
@@ -209,7 +210,7 @@ const TransactionList: React.FC<TransactionListProps> = ({
           style={{ marginBottom: 16, borderRadius: '6px' }}
         />
       )}
-      
+
       <Table
         columns={columns}
         dataSource={pageData.content}
@@ -230,8 +231,8 @@ const TransactionList: React.FC<TransactionListProps> = ({
         }}
         locale={{
           emptyText: (
-            <Empty 
-              description="No transactions found" 
+            <Empty
+              description="No transactions found"
               image={Empty.PRESENTED_IMAGE_SIMPLE}
             />
           ),

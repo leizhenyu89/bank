@@ -101,7 +101,7 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
         <Col span={12}>
           <Form.Item
             label="User"
-            name="createUser"
+            name={isEditing ? "updateUser" : "createUser"}
             rules={[
               { required: true, message: 'Please enter user name' },
               { min: 2, message: 'User name must be at least 2 characters' }

@@ -29,8 +29,15 @@ const AppContent: React.FC = () => {
     navigate(key);
   };
 
+  const layoutStyle = {
+    borderRadius: 8,
+    overflow: 'hidden',
+    width: 'calc(100% - 8px)',
+    maxWidth: 'calc(100% - 8px)',
+  };
+
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <Layout style={layoutStyle}>
       <Sider width={200} theme="light">
         <div style={{ height: 32, margin: 16, background: '#f0f0f0' }} />
         <Menu
@@ -43,7 +50,7 @@ const AppContent: React.FC = () => {
       </Sider>
       <Layout>
         <Header style={{ background: '#fff', padding: 0, borderBottom: '1px solid #f0f0f0' }}>
-          <div style={{ padding: '0 24px', fontSize: 18, fontWeight: 500 }}>
+          <div style={{ padding: '0 24px', fontSize: 18, fontWeight: 500,  textAlign: "center"}}>
             Bank Transaction System
           </div>
         </Header>

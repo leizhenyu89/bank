@@ -3,7 +3,7 @@ import TransactionList from '../components/TransactionList';
 import TransactionForm from '../components/TransactionForm';
 import { Transaction, TransactionFormData, PageResponse } from '../types/Transaction';
 import transactionService from '../services/transactionService';
-import { Button, Card, Space, message, Select, Typography, Row, Col, Divider } from 'antd';
+import { Button, Card, Space, message, Select, Typography, Row, Col } from 'antd';
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 
 const { Option } = Select;

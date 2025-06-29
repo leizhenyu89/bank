@@ -15,6 +15,8 @@ export interface TransactionFormData {
   amount: string;
   type: 'INCOME' | 'EXPENSE';
   createUser: string;
+  updateUser?: string;
+  version?: number;
 }
 
 // Page response type
