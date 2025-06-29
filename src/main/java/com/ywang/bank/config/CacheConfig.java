@@ -13,16 +13,26 @@ import java.util.concurrent.TimeUnit;
 @EnableCaching
 public class CacheConfig {
 
+    private final CaffeineCacheConfig caffeineCacheConfig;
+
+    public CacheConfig(CaffeineCacheConfig caffeineCacheConfig) {
+        this.caffeineCacheConfig = caffeineCacheConfig;
+    }
+
     @Bean
     public CacheManager cacheManager() {
         CaffeineCacheManager cacheManager = new CaffeineCacheManager();
-        cacheManager.setCaffeine(
-            Caffeine.newBuilder()
-                .maximumSize(1000)
-                .expireAfterWrite(30, TimeUnit.MINUTES)
-                .expireAfterAccess(10, TimeUnit.MINUTES)
-                .recordStats()
-        );
+        
+        Caffeine<Object, Object> caffeineBuilder = Caffeine.newBuilder()
+            .maximumSize(caffeineCacheConfig.getMaxSize())
+            .expireAfterWrite(caffeineCacheConfig.getExpireAfterWrite(), TimeUnit.MINUTES)
+            .expireAfterAccess(caffeineCacheConfig.getExpireAfterAccess(), TimeUnit.MINUTES);
+        
+        if (caffeineCacheConfig.isRecordStats()) {
+            caffeineBuilder.recordStats();
+        }
+        
+        cacheManager.setCaffeine(caffeineBuilder);
         cacheManager.setCacheNames(java.util.Arrays.asList("transactions", "transaction"));
         return cacheManager;
     }

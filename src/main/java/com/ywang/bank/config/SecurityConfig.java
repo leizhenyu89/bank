@@ -15,6 +15,12 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private final CorsProperties corsProperties;
+
+    public SecurityConfig(CorsProperties corsProperties) {
+        this.corsProperties = corsProperties;
+    }
+
     /**
      * Configure security filter chain with CORS support
      * Disables CSRF for API endpoints and configures CORS
@@ -55,26 +61,39 @@ public class SecurityConfig {
 
     /**
      * CORS configuration source for Spring Security
-     * Provides detailed CORS settings for cross-origin requests
+     * Uses CorsProperties configuration class for CORS settings
      */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         
-        // Allow all origins for development (you can restrict this in production)
-        configuration.addAllowedOriginPattern("*");
+        // Set allowed origins from configuration
+        if (corsProperties.getAllowedOrigins() != null && !corsProperties.getAllowedOrigins().isEmpty()) {
+            configuration.setAllowedOrigins(corsProperties.getAllowedOrigins());
+        } else {
+            // Fallback to allow all origins for development
+            configuration.addAllowedOriginPattern("*");
+        }
         
-        // Allow all methods
-        configuration.addAllowedMethod("*");
+        // Set allowed methods from configuration
+        if (corsProperties.getAllowedMethods() != null && !corsProperties.getAllowedMethods().isEmpty()) {
+            configuration.setAllowedMethods(corsProperties.getAllowedMethods());
+        } else {
+            configuration.addAllowedMethod("*");
+        }
         
-        // Allow all headers
-        configuration.addAllowedHeader("*");
+        // Set allowed headers from configuration
+        if (corsProperties.getAllowedHeaders() != null && !corsProperties.getAllowedHeaders().isEmpty()) {
+            configuration.setAllowedHeaders(corsProperties.getAllowedHeaders());
+        } else {
+            configuration.addAllowedHeader("*");
+        }
         
-        // Allow credentials
-        configuration.setAllowCredentials(true);
+        // Set credentials from configuration
+        configuration.setAllowCredentials(corsProperties.isAllowCredentials());
         
-        // Set max age for preflight requests
-        configuration.setMaxAge(3600L);
+        // Set max age from configuration
+        configuration.setMaxAge(corsProperties.getMaxAge());
         
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
