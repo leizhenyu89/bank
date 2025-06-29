@@ -1,0 +1,6 @@
+id,description,amount,type,createUser
+1,Salary Update,11000.00,INCOME,alice
+2,Food Update,60.00,EXPENSE,bob
+3,Transport Update,250.00,INCOME,charlie
+4,Shopping Update,350.00,EXPENSE,david
+5,Bonus Update,6000.00,INCOME,emma

@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:bank_transaction_db
+    driver-class-name: org.h2.Driver
+    username: SA
+    password: 
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+        generate_statistics: true
+        jdbc:
+          batch_size: 20
+          batch_versioned_data: true
+        order_inserts: true
+        order_updates: true
+  h2:
+    console:
+      enabled: true
+
+# Cache configuration
+cache:
+  caffeine:
+    max-size: 1000
+    expire-after-write: 30
+    expire-after-access: 10
+    record-stats: true
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.hibernate.stat: DEBUG
+    com.ywang.bank: DEBUG 

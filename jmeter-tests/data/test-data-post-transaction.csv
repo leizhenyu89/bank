@@ -1,0 +1,11 @@
+description,amount,type,createUser
+Salary Income,10000.00,INCOME,alice
+Food Expense,50.00,EXPENSE,bob
+Transport Allowance,200.00,INCOME,charlie
+Shopping Expense,300.00,EXPENSE,david
+Bonus,5000.00,INCOME,emma
+Rent Expense,1500.00,EXPENSE,frank
+Part-time Income,800.00,INCOME,grace
+Entertainment Expense,120.00,EXPENSE,helen
+Investment Return,2000.00,INCOME,ian
+Medical Expense,300.00,EXPENSE,jane 
