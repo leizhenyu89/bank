@@ -165,6 +165,21 @@ chmod +x jmeter-tests/run-mixed-stress-test.sh
 
 ## Configuration
 
+### Local Secret Configuration
+
+The application uses a separate secret configuration file for sensitive data like database credentials.
+
+**Important**: Create `src/main/resources/application-secret.yml` locally with your sensitive configuration:
+
+```yaml
+spring:
+  datasource:
+    username: your_username
+    password: your_password
+```
+
+This file is automatically included via `spring.profiles.include: secret` in the main configuration.
+
 ### Environment Variables
 - `REACT_APP_API_BASE_URL`: Frontend API base URL (default: http://localhost:8080)
 
